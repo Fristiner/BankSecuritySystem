@@ -1,13 +1,16 @@
+create database bank;
+
+use bank;
 -- 创建账户表，存储系统账户的详细信息
 CREATE TABLE account (
     -- 账户唯一标识符，默认生成随机UUID并转换为二进制格式
-                         id BINARY(16) PRIMARY KEY DEFAULT (UUID_TO_BIN(UUID())),
-
+                         account_id BINARY(16) PRIMARY KEY,
+                        balance DECIMAL(15,2) NOT NULL ,
     -- 用户名，用于登录和其他识别目的，必须唯一且非空
                          username VARCHAR(50) UNIQUE NOT NULL COMMENT '用户名，用于登录和其他识别目的，必须唯一且非空',
 
     -- 存储用户的密码哈希值（而非明文），非空
-                         password_hash VARCHAR(255) NOT NULL COMMENT '存储用户的密码哈希值（而非明文），非空',
+                         password VARCHAR(255) NOT NULL COMMENT '存储用户的密码哈希值（而非明文），非空',
 
     -- 用户电子邮件地址，通常作为次要登录凭证或找回密码的途径，可设置为唯一
                          email VARCHAR(100) UNIQUE COMMENT '用户电子邮件地址，通常作为次要登录凭证或找回密码的途径，可设置为唯一',
