@@ -1,0 +1,83 @@
+项目要求
+1.登录
+    姓名
+    身份证号码
+    密码
+    重复密码
+        通过就进行二次验证 
+
+
+不通过 1.输入错误
+              2.没有这个账号
+        
+
+接口1 身份证 姓名 密码 重复密码
+
+接口二 邮箱账号
+
+接口三 邮箱获得的验证码登录 返回一个token
+
+后端接口设计方案
+根据上述设计思路，以下是推荐的后端接口设计：
+
+``
+
+```
+POST /api/auth/verify-identity
+{
+    "idNumber": "string",
+    "fullName": "string",
+    "password": "string",
+    "confirmPassword": "string"
+}
+```
+
+200 OK：验证成功，返回下一步操作指引。
+400 Bad Request：验证失败，返回具体的错误信息（如字段格式错误）。
+403 Forbidden：身份验证失败（例如，身份证号码与姓名不匹配）。
+2. 邮箱补全与验证码发送
+   
+   ```
+   POST /api/auth/send-email-code
+   {
+       "partialEmail": "string", // 可选，用于提供部分邮箱账号提示
+       "email": "string"         // 完整的邮箱地址
+   }
+   ```
+   
+   
+   响应：
+
+200 OK：验证码已发送，包含验证码的有效时间和是否允许再次发送的信息。
+400 Bad Request：参数错误或邮箱格式不正确。
+429 Too Many Requests：请求过于频繁，暂时禁止发送验证码。
+3. 验证码验证
+   
+   ```
+   POST /api/auth/verify-email-code
+   {
+       "email": "string",
+       "code": "string"
+   }
+   
+   响应：
+   ```
+
+200 OK：验证码验证成功，返回登录token和其他相关信息。
+400 Bad Request：验证码错误或已过期。
+429 Too Many Requests：验证码验证失败次数过多，账户被临时锁定。
+
+4. Token刷新（可选）
+   
+   
+   ```
+   POST /api/auth/refresh-token
+   {
+       "refreshToken": "string"
+   }
+   ```
+   
+   
+
+200 OK：返回新的访问token。
+401 Unauthorized：刷新token无效或已过期。
