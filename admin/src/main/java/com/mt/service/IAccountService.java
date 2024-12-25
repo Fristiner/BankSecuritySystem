@@ -2,11 +2,10 @@ package com.mt.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mt.common.convention.result.Result;
 import com.mt.dao.entity.Account;
 import com.mt.dto.req.AccountLoginIDReqDTO;
 import com.mt.dto.req.AccountRegisterReqDTO;
-import com.mt.dto.resp.AccountLoginIDRespDTO;
+import com.mt.dto.resp.AccountLoginRespDTO;
 
 /*
  * {@code @author} ma
@@ -17,7 +16,7 @@ import com.mt.dto.resp.AccountLoginIDRespDTO;
 
 public interface IAccountService extends IService<Account> {
 
-    AccountLoginIDRespDTO verifyLogin(AccountLoginIDReqDTO reqDTO);
+    AccountLoginRespDTO verifyLogin(AccountLoginIDReqDTO reqDTO);
 
-    Result<Void> register(AccountRegisterReqDTO reqDTO);
+    void register(AccountRegisterReqDTO reqDTO);
 }

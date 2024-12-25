@@ -10,9 +10,8 @@ package com.mt.controller;
 import com.mt.common.convention.result.Result;
 import com.mt.common.convention.result.Results;
 import com.mt.dto.req.AccountLoginIDReqDTO;
-import com.mt.dto.resp.AccountLoginIDRespDTO;
+import com.mt.dto.resp.AccountLoginRespDTO;
 import com.mt.service.IAccountService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,9 +30,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
     private final IAccountService accountService;
 
-    //1.登录接口，返回一个200状态码，然后不返回数据，
+    //1.登录接口1，成功返回一个200状态码，然后不返回数据，
+    //      成功情况为：输入的账号和重复密码都正确 返回一个data 含有加盐后email地址和一个token，前端需要补齐邮箱地址才可以
+    //
     @PostMapping("/api/auth/verifyLogin")
-    public Result<AccountLoginIDRespDTO> verifyLogin(@RequestBody AccountLoginIDReqDTO reqDTO) {
+    public Result<AccountLoginRespDTO> verifyLogin(@RequestBody AccountLoginIDReqDTO reqDTO) {
         return Results.success(accountService.verifyLogin(reqDTO));
     }
+
+//    public Result<> send
+
+    // 登录接口2
+    //  传入数据为完整的邮箱地址和token
+    //  如果然后token数据放到那个redis里面和那个
+
+    // 登录接口3
+    // 校验模块 传入一个验证码如果正确就会返回一个登录的token 值
+    //
+
 }

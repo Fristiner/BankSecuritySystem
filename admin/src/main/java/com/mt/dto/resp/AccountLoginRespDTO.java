@@ -18,7 +18,8 @@ import lombok.Data;
  * {@code @description:}
  */
 @Data
-public class AccountLoginIDRespDTO {
-    // 返回加密的邮箱系统
-    private String encryEmail;
+public class AccountLoginRespDTO {
+    // 返回邮箱系统
+    private String email;
+
 }

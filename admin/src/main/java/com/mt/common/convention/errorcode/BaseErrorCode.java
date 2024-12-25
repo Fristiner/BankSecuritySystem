@@ -6,29 +6,22 @@ public enum BaseErrorCode implements IErrorCode {
     CLIENT_ERROR("A000001", "用户端错误"),
 
     // ========== 二级宏观错误码 用户注册错误 ==========
-    USER_REGISTER_ERROR("A000100", "用户注册错误"),
-    USER_NAME_VERIFY_ERROR("A000110", "用户名校验失败"),
-    USER_NAME_EXIST_ERROR("A000111", "用户名已存在"),
-    USER_NAME_SENSITIVE_ERROR("A000112", "用户名包含敏感词"),
-    USER_NAME_SPECIAL_CHARACTER_ERROR("A000113", "用户名包含特殊字符"),
-    PASSWORD_VERIFY_ERROR("A000120", "密码校验失败"),
-    PASSWORD_SHORT_ERROR("A000121", "密码长度不够"),
-    PHONE_VERIFY_ERROR("A000151", "手机格式校验失败"),
-
-    // ========== 二级宏观错误码 系统请求缺少幂等Token ==========
-    IDEMPOTENT_TOKEN_NULL_ERROR("A000200", "幂等Token为空"),
-    IDEMPOTENT_TOKEN_DELETE_ERROR("A000201", "幂等Token已被使用或失效"),
-
-    // ========== 二级宏观错误码 系统请求操作频繁 ==========
-    FLOW_LIMIT_ERROR("A000300", "当前系统繁忙，请稍后再试"),
-
+    USER_NULL_ERROR("A0001001", "传入数据为空"),
+    USER_ID_NUMBER_ERROR("A0001002", "身份证号码已被注册"),
+    USER_EMAIL_EXIST_ERROR("A0001003", "该邮箱已经被注册"),
+    USER_LOGIN_ERROR("A0001004", "数据无效或两次密码不同"),
+    USER_NO_EXIST_ERROR("A0001005", "用户没有注册不存在"),
+    USER_PASSWORD_ERROR("A0001006", "密码错误"),
     // ========== 一级宏观错误码 系统执行出错 ==========
     SERVICE_ERROR("B000001", "系统执行出错"),
     // ========== 二级宏观错误码 系统执行超时 ==========
     SERVICE_TIMEOUT_ERROR("B000100", "系统执行超时"),
 
+
     // ========== 一级宏观错误码 调用第三方服务出错 ==========
-    REMOTE_ERROR("C000001", "调用第三方服务出错");
+    REMOTE_ERROR("C000001", "调用第三方服务出错"),
+    NUMBER_SMALL_ERROR("403", "数字过小"),
+    NUMBER_OVER_ERROR("401", "数字过大");
 
     private final String code;
 
