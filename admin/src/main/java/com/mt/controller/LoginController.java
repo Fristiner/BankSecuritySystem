@@ -15,7 +15,10 @@ import com.mt.dto.req.AccountSendCodeReqDTO;
 import com.mt.dto.resp.AccountLoginRespDTO;
 import com.mt.dto.resp.AccountSuccessLoginRespDTO;
 import com.mt.service.IAccountService;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,10 +43,11 @@ public class LoginController {
     public Result<AccountLoginRespDTO> verifyLogin(@RequestBody AccountLoginIDReqDTO reqDTO) {
         return Results.success(accountService.verifyLogin(reqDTO));
     }
+
     // 2.登录接口2 成功返回一个200状态码，然后不返回数据，
     //   传过来一个email 和 token  然后发送验证码到指定邮箱
     @PostMapping("/api/auth/sendCode")
-    public Result<Void>  SendEmail(@RequestBody AccountSendCodeReqDTO accountSendCodeReqDTO) {
+    public Result<Void> SendEmail(@RequestBody AccountSendCodeReqDTO accountSendCodeReqDTO) {
         accountService.SendEmail(accountSendCodeReqDTO);
         return Results.success();
     }
@@ -56,7 +60,18 @@ public class LoginController {
     // 校验模块 传入一个验证码如果正确就会返回一个登录的token 值
     //
     @PostMapping("/api/auth/Login")
-    public Result<AccountSuccessLoginRespDTO> lastLogin(@RequestBody AccountLoginReqDTO accountLoginReqDTO){
-        return Results.success(accountService.lastLogin(accountLoginReqDTO));
+    public Result<AccountSuccessLoginRespDTO> lastLogin(@RequestBody AccountLoginReqDTO accountLoginReqDTO,
+                                                        ServletRequest request, ServletResponse response) {
+        return Results.success(accountService.lastLogin(accountLoginReqDTO, request, response));
+    }
+
+    @GetMapping("/api/auth/test")
+    public Result<Void> test() {
+        System.out.println("shuchuasdasdas");
+        Result<Void> result = new Result<>();
+        result.setCode("200");
+        result.setMessage("dasdasdas");
+
+        return result;
     }
 }

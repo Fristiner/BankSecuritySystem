@@ -9,6 +9,8 @@ import com.mt.dto.req.AccountRegisterReqDTO;
 import com.mt.dto.req.AccountSendCodeReqDTO;
 import com.mt.dto.resp.AccountLoginRespDTO;
 import com.mt.dto.resp.AccountSuccessLoginRespDTO;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /*
  * {@code @author} ma
@@ -25,7 +27,7 @@ public interface IAccountService extends IService<Account> {
 
     void SendEmail(AccountSendCodeReqDTO accountSendCodeReqDTO);
 
-    AccountSuccessLoginRespDTO lastLogin(AccountLoginReqDTO accountLoginReqDTO);
+    AccountSuccessLoginRespDTO lastLogin(AccountLoginReqDTO accountLoginReqDTO, ServletRequest request, ServletResponse response);
 }
 
 

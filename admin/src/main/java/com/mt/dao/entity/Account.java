@@ -8,7 +8,6 @@ package com.mt.dao.entity;
 
 
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -26,9 +25,9 @@ import java.util.Date;
 
 @Data
 @TableName("account")
-@Builder
+
 public class Account {
-    @TableId(type = IdType.ASSIGN_ID,value = "account_id")
+    @TableId(type = IdType.ASSIGN_ID, value = "account_id")
     private String accountId;
 
     private BigDecimal balance;
@@ -65,4 +64,6 @@ public class Account {
     @TableLogic
     private Integer deleted;
 
+    public Account() {
+    }
 }

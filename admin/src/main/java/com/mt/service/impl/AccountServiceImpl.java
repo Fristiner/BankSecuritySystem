@@ -25,6 +25,8 @@ import com.mt.dto.resp.AccountSuccessLoginRespDTO;
 import com.mt.service.IAccountService;
 import com.mt.utils.EmailUtil;
 import jakarta.annotation.Resource;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -78,6 +80,8 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         try {
             // 创建新的账户实体
             Account account = new Account();
+
+            // 设置账户信息
 //        account.setAccountId(UUID.randomUUID().toString().replaceAll("-", ""));
             String ID = cn.hutool.core.lang.UUID.randomUUID().toString(true);
             String accountIDNew = ID.substring(0, 16);
@@ -139,14 +143,14 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
             Boolean result = stringRedisTemplate.opsForValue().setIfAbsent(
                     RedisConstant.SEND_CODE_PREFIX + email, randomNumbers, 3, TimeUnit.MINUTES
             );
-            if (result == null || !result){
-            // TODO：抛出异常需要优化
+            if (result == null || !result) {
+                // TODO：抛出异常需要优化
                 throw new ClientException(BaseErrorCode.SERVICE_ERROR);
             }
 
             // 发送邮箱
             Boolean sendCodeEmailResult = emailUtil.sendCodeToEmail(email, randomNumbers);
-            if(!sendCodeEmailResult){
+            if (!sendCodeEmailResult) {
                 // 发送失败，清理可能存在的Redis记录
                 cleanupOnError(redisKey);
                 throw new ClientException(BaseErrorCode.SERVICE_ERROR);
@@ -159,22 +163,13 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     }
 
-    /**
-     * 最终登录校验
-     * @param accountLoginReqDTO
-     * @return
-     */
+    //TODO：实现最后的登录操作
 
-    // 需要这两个信息 (ServletRequest request, ServletResponse response)
     @Override
-    public AccountSuccessLoginRespDTO lastLogin(AccountLoginReqDTO accountLoginReqDTO) {
-        //TODO： 完成最终的登录校验，将登录成功的用户信息存入redis中
-        //   并且将用户的用户id关联信息存入UserContext中
-
-
-
+    public AccountSuccessLoginRespDTO lastLogin(AccountLoginReqDTO accountLoginReqDTO, ServletRequest request, ServletResponse response) {
 
         return null;
+
     }
 
     private void cleanupOnError(String redisKey) {
@@ -226,7 +221,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         String token = UUID.randomUUID().toString();
         // 将token与用户ID关联存储到Redis中
         Boolean setIfAbsent = stringRedisTemplate.opsForValue().setIfAbsent(
-                RedisConstant.EMAIL_PREFIX+account.getEmail(), token, 5, TimeUnit.MINUTES);
+                RedisConstant.EMAIL_PREFIX + account.getEmail(), token, 5, TimeUnit.MINUTES);
         if (Boolean.FALSE.equals(setIfAbsent)) {
             throw new ClientException(BaseErrorCode.SERVICE_ERROR);
         }
