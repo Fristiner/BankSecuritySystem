@@ -77,7 +77,7 @@ CREATE TABLE audit_log (
 -- 创建登录日志表，记录每次用户的登录信息
 CREATE TABLE login_log (
     -- 登录日志唯一标识符，默认生成随机UUID并转换为二进制格式
-                           login_log_id BINARY(16) PRIMARY KEY  COMMENT '登录日志唯一标识符，默认生成随机UUID并转换为二进制格式',
+                           login_id BINARY(16) PRIMARY KEY  COMMENT '登录日志唯一标识符，默认生成随机UUID并转换为二进制格式',
 
     -- 关联的账户ID
                            account_id BINARY(16) NOT NULL COMMENT '关联的账户ID',

@@ -10,7 +10,10 @@ package com.mt.controller;
 import com.mt.common.convention.result.Result;
 import com.mt.common.convention.result.Results;
 import com.mt.dto.req.AccountLoginIDReqDTO;
+import com.mt.dto.req.AccountLoginReqDTO;
+import com.mt.dto.req.AccountSendCodeReqDTO;
 import com.mt.dto.resp.AccountLoginRespDTO;
+import com.mt.dto.resp.AccountSuccessLoginRespDTO;
 import com.mt.service.IAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,8 +40,13 @@ public class LoginController {
     public Result<AccountLoginRespDTO> verifyLogin(@RequestBody AccountLoginIDReqDTO reqDTO) {
         return Results.success(accountService.verifyLogin(reqDTO));
     }
-
-//    public Result<> send
+    // 2.登录接口2 成功返回一个200状态码，然后不返回数据，
+    //   传过来一个email 和 token  然后发送验证码到指定邮箱
+    @PostMapping("/api/auth/sendCode")
+    public Result<Void>  SendEmail(@RequestBody AccountSendCodeReqDTO accountSendCodeReqDTO) {
+        accountService.SendEmail(accountSendCodeReqDTO);
+        return Results.success();
+    }
 
     // 登录接口2
     //  传入数据为完整的邮箱地址和token
@@ -47,5 +55,8 @@ public class LoginController {
     // 登录接口3
     // 校验模块 传入一个验证码如果正确就会返回一个登录的token 值
     //
-
+    @PostMapping("/api/auth/Login")
+    public Result<AccountSuccessLoginRespDTO> lastLogin(@RequestBody AccountLoginReqDTO accountLoginReqDTO){
+        return Results.success(accountService.lastLogin(accountLoginReqDTO));
+    }
 }

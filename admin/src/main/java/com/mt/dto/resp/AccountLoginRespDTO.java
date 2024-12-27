@@ -22,4 +22,7 @@ public class AccountLoginRespDTO {
     // 返回邮箱系统
     private String email;
 
+    // token 用来进行校验
+    private String token;
+
 }
