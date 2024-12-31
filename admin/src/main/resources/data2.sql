@@ -46,7 +46,8 @@ CREATE TABLE balance_change_history (
                                         change_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     -- 变更原因（关联到具体的交易或操作）
-                                        reason TEXT
+                                        reason TEXT,
+                                        type enum('payment', 'withdrawl','deposit','refund', 'transfer') NOT NULL,
 );
 
 -- 审计日志表
