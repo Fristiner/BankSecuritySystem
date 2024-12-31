@@ -2,7 +2,6 @@ package com.mt.dao.entity;
 
 
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,10 +11,9 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("login_log")
-@Builder
 public class LoginLog {
 
-    @TableId(type = IdType.ASSIGN_UUID,value = "login_id")
+    @TableId(type = IdType.ASSIGN_UUID, value = "login_id")
     private String loginId;
     /**
      * 关联的账户ID
@@ -26,6 +24,7 @@ public class LoginLog {
     /**
      * 用户IP地址，支持IPv4和IPv6
      */
+    @TableField(value = "ip_address")
     private String ipAddress;
 
     /**
@@ -54,9 +53,6 @@ public class LoginLog {
      */
     @TableLogic
     private Integer delFlag;
-
-
-
 
 
 }

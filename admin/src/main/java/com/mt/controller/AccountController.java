@@ -9,6 +9,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AccountController {
     private final IAccountService accountService;
-
-    
 }

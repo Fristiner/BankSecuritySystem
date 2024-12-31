@@ -66,8 +66,21 @@ public class LoginController {
     }
 
     @GetMapping("/api/auth/test")
-    public Result<Void> test() {
-        System.out.println("shuchuasdasdas");
+    public Result<Void> test(ServletRequest request, ServletResponse response) {
+
+//        String actualIp = LinkUtil.getActualIp(((HttpServletRequest) request));
+//        String browser = LinkUtil.getBrowser(((HttpServletRequest) request));
+//        String os = LinkUtil.getOs(((HttpServletRequest) request));
+//        String device = LinkUtil.getDevice(((HttpServletRequest) request));
+//        String network = LinkUtil.getNetwork(((HttpServletRequest) request));
+//
+//        System.out.println("actualIp:" + actualIp);
+//        System.out.println("browser:" + browser);
+//        System.out.println("os:" + os);
+//        System.out.println("device:" + device);
+//        System.out.println("network:" + network);
+
+//        System.out.println("shuchuasdasdas");
         Result<Void> result = new Result<>();
         result.setCode("200");
         result.setMessage("dasdasdas");

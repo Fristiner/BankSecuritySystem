@@ -22,9 +22,9 @@ public class AccountLoginIDReqDTO {
     // 身份证号码
     private String idNumber;
     // 全名
-    private String fullName;
+//    private String fullName;
     // 密码
     private String password;
     // 确实密码
-    private String confirmPassword;
+//    private String confirmPassword;
 }

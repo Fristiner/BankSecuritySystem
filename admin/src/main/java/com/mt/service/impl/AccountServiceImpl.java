@@ -7,15 +7,19 @@ package com.mt.service.impl;
  */
 
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.mt.common.biz.user.UserContext;
 import com.mt.common.constant.RedisConstant;
 import com.mt.common.convention.errorcode.BaseErrorCode;
 import com.mt.common.convention.exception.ClientException;
 import com.mt.dao.entity.Account;
+import com.mt.dao.entity.LoginLog;
 import com.mt.dao.mapper.AccountMapper;
+import com.mt.dao.mapper.LoginLogMapper;
 import com.mt.dto.req.AccountLoginIDReqDTO;
 import com.mt.dto.req.AccountLoginReqDTO;
 import com.mt.dto.req.AccountRegisterReqDTO;
@@ -24,14 +28,15 @@ import com.mt.dto.resp.AccountLoginRespDTO;
 import com.mt.dto.resp.AccountSuccessLoginRespDTO;
 import com.mt.service.IAccountService;
 import com.mt.utils.EmailUtil;
+import com.mt.utils.LinkUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,6 +56,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     @Resource
     private EmailUtil emailUtil;
+    @Resource
+    private AccountMapper accountMapper;
+
+    @Resource
+    private LoginLogMapper loginLogMapper;
 
     /**
      * 账号注册功能
@@ -165,10 +175,75 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     //TODO：实现最后的登录操作
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public AccountSuccessLoginRespDTO lastLogin(AccountLoginReqDTO accountLoginReqDTO, ServletRequest request, ServletResponse response) {
+        // 接收发送过来的验证码，返回一个登录的token 并将用户信息存储到UserContent中
+//        return null;
+        // 1.获取返回的token
+        String code = accountLoginReqDTO.getCode();
+        String email = accountLoginReqDTO.getEmail();
 
-        return null;
+        // 2.去redis中查询验证码
+        String redisKey = RedisConstant.SEND_CODE_PREFIX + email;
+        String redisCode = stringRedisTemplate.opsForValue().get(redisKey);
+        if (redisCode == null || !redisCode.equals(code)) {
+            // 抛出异常，没有这个数据登录失败
+            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+        }
+        // 登录成功，删除redis 当中的验证码
+        // 3.删除redis中的验证码
+        stringRedisTemplate.delete(redisKey);
+        // 添加登录日志服务
+        // 去数据库中查询用户信息
+        QueryWrapper<Account> accountQueryWrapper = new QueryWrapper<>();
+        accountQueryWrapper.eq("email", email);
+
+        Account account = accountMapper.selectOne(accountQueryWrapper);
+
+
+        // 生成登陆的Authorization返回
+
+        String authorization = cn.hutool.core.lang.UUID.randomUUID().toString(true);
+
+        // 将信息存入到redis当中
+//        BeanUtil.copyProperties(account, );
+
+        String actualIp = LinkUtil.getActualIp(((HttpServletRequest) request));
+        String browser = LinkUtil.getBrowser(((HttpServletRequest) request));
+        String os = LinkUtil.getOs(((HttpServletRequest) request));
+        String device = LinkUtil.getDevice(((HttpServletRequest) request));
+        String network = LinkUtil.getNetwork(((HttpServletRequest) request));
+        LoginLog loginLog = new LoginLog();
+
+        loginLog.setAccountId(account.getAccountId());
+        loginLog.setIpAddress(actualIp);
+        loginLog.setBrowser(browser);
+        loginLog.setOs(os);
+        loginLog.setDevice(device);
+//        loginLog.set(network);
+        String login_id = cn.hutool.core.lang.UUID.randomUUID().toString(true).substring(0, 16);
+        loginLog.setLoginId(login_id);
+
+        int result = loginLogMapper.insert(loginLog);
+        if (result != 1) {
+            // TODO： 插入数据出现异常
+            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+        }
+
+
+        // 将用户数据放到上下文当中 确保前面登录不会出现问题后，才可以放入到登录上下文当中去
+        UserContext.saveAccount(account);
+        // 5.返回登录成功的信息
+        AccountSuccessLoginRespDTO respDTO = new AccountSuccessLoginRespDTO();
+        respDTO.setAuthorization(authorization);
+        return respDTO;
+
+
+        // 4.返回登录成功的信息
+    }
+
+    private void LoginNetWork(ServletRequest request, ServletResponse response) {
 
     }
 
@@ -191,11 +266,12 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     @Override
     public AccountLoginRespDTO verifyLogin(AccountLoginIDReqDTO reqDTO) {
         //1.两次密码不相同
-        if (reqDTO == null || !reqDTO.getPassword().equals(reqDTO.getConfirmPassword())) {
+        if (reqDTO == null) {
 //            return Results.failure(400, "数据无效或两次密码不同");、
             throw new ClientException(BaseErrorCode.USER_LOGIN_ERROR);
 //            System.out.println("asd");
         }
+
         // 2.两次密码相同
         // 去查找数据库
         QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
@@ -218,13 +294,21 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         respDTO.setEmail(account.getEmail());
         // TODO： 需要引入一个token 和redis对应的关系，然后确保下一次获取验证码时候找到对应的对象
         // 生成一个随机的token
-        String token = UUID.randomUUID().toString();
+        String token = UUID.randomUUID().toString(true);
         // 将token与用户ID关联存储到Redis中
-        Boolean setIfAbsent = stringRedisTemplate.opsForValue().setIfAbsent(
-                RedisConstant.EMAIL_PREFIX + account.getEmail(), token, 5, TimeUnit.MINUTES);
-        if (Boolean.FALSE.equals(setIfAbsent)) {
-            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
-        }
+//        Boolean setIfAbsent = stringRedisTemplate.opsForValue().setIfAbsent(
+//                RedisConstant.EMAIL_PREFIX + account.getEmail(), token, 5, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForValue().set(
+                RedisConstant.EMAIL_PREFIX + account.getEmail(),
+                token,
+                5,
+                TimeUnit.MINUTES
+        );
+
+//        if (Boolean.FALSE.equals(setIfAbsent)) {
+//            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+//        }
+
         respDTO.setToken(token);
         // 注意：不要将敏感信息（如密码）包含在响应中
 //        respDTO.setPassword(null); // 清除密码字段
