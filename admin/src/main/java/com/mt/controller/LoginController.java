@@ -7,8 +7,10 @@ package com.mt.controller;
  */
 
 
+import com.mt.common.biz.user.UserContext;
 import com.mt.common.convention.result.Result;
 import com.mt.common.convention.result.Results;
+import com.mt.dao.entity.Account;
 import com.mt.dto.req.AccountLoginIDReqDTO;
 import com.mt.dto.req.AccountLoginReqDTO;
 import com.mt.dto.req.AccountSendCodeReqDTO;
@@ -68,19 +70,14 @@ public class LoginController {
     @GetMapping("/api/auth/test")
     public Result<Void> test(ServletRequest request, ServletResponse response) {
 
-//        String actualIp = LinkUtil.getActualIp(((HttpServletRequest) request));
-//        String browser = LinkUtil.getBrowser(((HttpServletRequest) request));
-//        String os = LinkUtil.getOs(((HttpServletRequest) request));
-//        String device = LinkUtil.getDevice(((HttpServletRequest) request));
-//        String network = LinkUtil.getNetwork(((HttpServletRequest) request));
-//
-//        System.out.println("actualIp:" + actualIp);
-//        System.out.println("browser:" + browser);
-//        System.out.println("os:" + os);
-//        System.out.println("device:" + device);
-//        System.out.println("network:" + network);
+        Account account = UserContext.getAccount();
+        if (account != null) {
+            System.out.println("account = " + account);
+        } else {
+            throw new RuntimeException("用户未登录");
+        }
+        
 
-//        System.out.println("shuchuasdasdas");
         Result<Void> result = new Result<>();
         result.setCode("200");
         result.setMessage("dasdasdas");

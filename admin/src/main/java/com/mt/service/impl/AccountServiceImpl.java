@@ -20,10 +20,7 @@ import com.mt.dao.entity.Account;
 import com.mt.dao.entity.LoginLog;
 import com.mt.dao.mapper.AccountMapper;
 import com.mt.dao.mapper.LoginLogMapper;
-import com.mt.dto.req.AccountLoginIDReqDTO;
-import com.mt.dto.req.AccountLoginReqDTO;
-import com.mt.dto.req.AccountRegisterReqDTO;
-import com.mt.dto.req.AccountSendCodeReqDTO;
+import com.mt.dto.req.*;
 import com.mt.dto.resp.AccountLoginRespDTO;
 import com.mt.dto.resp.AccountSuccessLoginRespDTO;
 import com.mt.service.IAccountService;
@@ -115,12 +112,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
             // 使用 MyBatis Plus 保存账户信息
             boolean saveSuccess = this.save(account);
             if (!saveSuccess) {
-                throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+                throw new ClientException(BaseErrorCode.SAVE_OBJECT_ERROR);
             }
-
         } catch (Exception e) {
 //            log.error("注册过程出现异常，{}", e);
-            throw new RuntimeException(e);
+            throw new ClientException(BaseErrorCode.REGISTER_OTHER_ERROR);
         }
 
     }
@@ -138,12 +134,13 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
             // 如果有数据，进行校验
             if (previousToken == null || !previousToken.equals(existingToken)) {
 //                throw new IllegalArgumentException("上次生成的token值不匹配");
-                throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+
+                throw new ClientException(BaseErrorCode.TOKEN_ERROR);
             }
             // 如果Token匹配，则可以认为用户是合法的，可以选择直接返回而不重新发送验证码
         } else {
             // 如果没有数据，或者数据为空，继续执行发送验证码的逻辑
-            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+            throw new ClientException(BaseErrorCode.TOKEN_OVER_TIME_ERROR);
         }
         // 此时已经校验成功
         // 生成随机的验证码
@@ -155,7 +152,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
             );
             if (result == null || !result) {
                 // TODO：抛出异常需要优化
-                throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+                throw new ClientException(BaseErrorCode.REDIS_GENERATE_ERROR);
             }
 
             // 发送邮箱
@@ -163,7 +160,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
             if (!sendCodeEmailResult) {
                 // 发送失败，清理可能存在的Redis记录
                 cleanupOnError(redisKey);
-                throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+                throw new ClientException(BaseErrorCode.EMAIL_SEND_ERROR);
             }
 //            log.("验证码已发送到邮箱：{},并已经存入redis中", email);
         } catch (Exception e) {
@@ -189,11 +186,19 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         String redisCode = stringRedisTemplate.opsForValue().get(redisKey);
         if (redisCode == null || !redisCode.equals(code)) {
             // 抛出异常，没有这个数据登录失败
-            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+            throw new ClientException(BaseErrorCode.TOKEN_ERROR);
         }
         // 登录成功，删除redis 当中的验证码
         // 3.删除redis中的验证码
-        stringRedisTemplate.delete(redisKey);
+//        stringRedisTemplate.delete(redisKey);
+        // 设置过期时间为50s
+        // 如果过期时间超过50s 则设计过期时间为50s
+//        stringRedisTemplate.expire(redisKey, 50, TimeUnit.SECONDS);
+        Long ttl = stringRedisTemplate.getExpire(redisKey);
+        if (ttl != null && ttl > 40) {
+            stringRedisTemplate.expire(redisKey, 40, TimeUnit.SECONDS);
+        }
+
         // 添加登录日志服务
         // 去数据库中查询用户信息
         QueryWrapper<Account> accountQueryWrapper = new QueryWrapper<>();
@@ -201,7 +206,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
         Account account = accountMapper.selectOne(accountQueryWrapper);
 
-
+        if (account == null) {
+            throw new ClientException(BaseErrorCode.USER_NO_EXIST_ERROR);
+        }
         // 生成登陆的Authorization返回
 
         String authorization = cn.hutool.core.lang.UUID.randomUUID().toString(true);
@@ -227,10 +234,13 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
         int result = loginLogMapper.insert(loginLog);
         if (result != 1) {
-            // TODO： 插入数据出现异常
-            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
-        }
 
+            throw new ClientException(BaseErrorCode.SAVE_OBJECT_ERROR);
+        }
+        // TODO 保存authorization 到redis中去
+        stringRedisTemplate.opsForValue().set(
+                RedisConstant.AUTHORIZATION_PREFIX + authorization
+                , account.getAccountId(), 30, TimeUnit.MINUTES);
 
         // 将用户数据放到上下文当中 确保前面登录不会出现问题后，才可以放入到登录上下文当中去
         UserContext.saveAccount(account);
@@ -241,6 +251,17 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
 
         // 4.返回登录成功的信息
+    }
+
+    /**
+     * 充值功能
+     *
+     * @param accountRechargeReqDTO
+     */
+    @Override
+    public void recharge(AccountRechargeReqDTO accountRechargeReqDTO) {
+        // TODO： 实现充值功能
+
     }
 
     private void LoginNetWork(ServletRequest request, ServletResponse response) {
@@ -292,12 +313,13 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         // 4. 返回成功响应
         AccountLoginRespDTO respDTO = new AccountLoginRespDTO();
         respDTO.setEmail(account.getEmail());
-        // TODO： 需要引入一个token 和redis对应的关系，然后确保下一次获取验证码时候找到对应的对象
         // 生成一个随机的token
         String token = UUID.randomUUID().toString(true);
         // 将token与用户ID关联存储到Redis中
 //        Boolean setIfAbsent = stringRedisTemplate.opsForValue().setIfAbsent(
 //                RedisConstant.EMAIL_PREFIX + account.getEmail(), token, 5, TimeUnit.MINUTES);
+
+
         stringRedisTemplate.opsForValue().set(
                 RedisConstant.EMAIL_PREFIX + account.getEmail(),
                 token,

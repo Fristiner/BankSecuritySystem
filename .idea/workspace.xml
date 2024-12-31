@@ -4,15 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6ecf5f1-8a01-4bbe-89ed-e8d718540c82" name="更改" comment="添加拦截器">
+    <list default="true" id="f6ecf5f1-8a01-4bbe-89ed-e8d718540c82" name="更改" comment="登录接口">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/constant/RedisConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/constant/RedisConstant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/interceptor/LoginInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/interceptor/LoginInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/convention/errorcode/BaseErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/convention/errorcode/BaseErrorCode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/config/MyMetaObjectHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/config/MyMetaObjectHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/AccountController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/dao/entity/LoginLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/dao/entity/LoginLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/req/AccountLoginIDReqDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/req/AccountLoginIDReqDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/req/AccountUpdateReqDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/req/AccountUpdateReqDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/IAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/IAccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/impl/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/impl/AccountServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,6 +24,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -101,7 +102,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Spring Boot.BankSecurityAdminApplication">
+  <component name="RunManager" selected="应用程序.stest">
     <configuration name="stest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.mt.stest" />
       <module name="BankSecurityAdmin" />
@@ -130,8 +131,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.BankSecurityAdminApplication" />
         <item itemvalue="应用程序.stest" />
+        <item itemvalue="Spring Boot.BankSecurityAdminApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -166,7 +167,7 @@
       <workItem from="1735278427047" duration="320000" />
       <workItem from="1735281517717" duration="37000" />
       <workItem from="1735537089789" duration="3141000" />
-      <workItem from="1735609502443" duration="4178000" />
+      <workItem from="1735609502443" duration="9009000" />
     </task>
     <task id="LOCAL-00001" summary="修改.gitignore">
       <option name="closed" value="true" />
@@ -192,7 +193,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735281547192</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="登录接口">
+      <option name="closed" value="true" />
+      <created>1735617651804</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1735617651805</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -202,7 +211,8 @@
     <MESSAGE value="修改.gitignore" />
     <MESSAGE value="登录接口2" />
     <MESSAGE value="添加拦截器" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加拦截器" />
+    <MESSAGE value="登录接口" />
+    <option name="LAST_COMMIT_MESSAGE" value="登录接口" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

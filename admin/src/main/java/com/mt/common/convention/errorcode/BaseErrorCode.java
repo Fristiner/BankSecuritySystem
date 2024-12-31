@@ -16,12 +16,16 @@ public enum BaseErrorCode implements IErrorCode {
     SERVICE_ERROR("B000001", "系统执行出错"),
     // ========== 二级宏观错误码 系统执行超时 ==========
     SERVICE_TIMEOUT_ERROR("B000100", "系统执行超时"),
-
-
+    SAVE_OBJECT_ERROR("B0001001", "保存信息时出现错误，系统执行异常"),
+    REGISTER_OTHER_ERROR("B0001002", "注册时出现其它错误，系统执行异常"),
+    REDIS_GENERATE_ERROR("B0001003", "生成redis key时出现错误，系统执行异常"),
+    EMAIL_SEND_ERROR("B0001004", "发送邮件时出现错误，系统执行异常"),
     // ========== 一级宏观错误码 调用第三方服务出错 ==========
     REMOTE_ERROR("C000001", "调用第三方服务出错"),
     NUMBER_SMALL_ERROR("403", "数字过小"),
-    NUMBER_OVER_ERROR("401", "数字过大");
+    NUMBER_OVER_ERROR("401", "数字过大"),
+    TOKEN_OVER_TIME_ERROR("C000003", "token已过期"),
+    TOKEN_ERROR("C000002", "传入token不匹配或没有传入token值");
 
     private final String code;
 

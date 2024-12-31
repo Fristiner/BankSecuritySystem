@@ -15,6 +15,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         this.strictInsertFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
         this.strictInsertFill(metaObject, "deleted", Integer.class, 0); // 默认逻辑未删除
         this.strictInsertFill(metaObject, "loginTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, "changeTime", LocalDateTime.class, LocalDateTime.now());
+        this.strictInsertFill(metaObject, "transactionTime", LocalDateTime.class, LocalDateTime.now());
     }
 
     @Override
