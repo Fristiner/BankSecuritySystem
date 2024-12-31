@@ -13,6 +13,7 @@ import com.mt.common.convention.result.Results;
 import com.mt.dao.entity.Account;
 import com.mt.dto.req.AccountLoginIDReqDTO;
 import com.mt.dto.req.AccountLoginReqDTO;
+import com.mt.dto.req.AccountRegisterReqDTO;
 import com.mt.dto.req.AccountSendCodeReqDTO;
 import com.mt.dto.resp.AccountLoginRespDTO;
 import com.mt.dto.resp.AccountSuccessLoginRespDTO;
@@ -28,14 +29,14 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * {@code @projectName:}    BankSecuritySystem
  * {@code @package:}        com.mt.controller
- * {@code @className:}      LoginController
+ * {@code @className:}      AuthController
  * {@code @author:}         ma
  * {@code @date:}           2024/12/22 13:59
  * {@code @description:}
  */
 @RestController
 @RequiredArgsConstructor
-public class LoginController {
+public class AuthController {
     private final IAccountService accountService;
 
     //1.登录接口1，成功返回一个200状态码，然后不返回数据，
@@ -76,12 +77,19 @@ public class LoginController {
         } else {
             throw new RuntimeException("用户未登录");
         }
-        
+
 
         Result<Void> result = new Result<>();
         result.setCode("200");
         result.setMessage("dasdasdas");
 
         return result;
+    }
+
+    // 1.账号注册功能
+    @PostMapping("/api/auth/register")
+    public Result<Void> register(@RequestBody AccountRegisterReqDTO reqDTO) {
+        accountService.register(reqDTO);
+        return Results.success();
     }
 }

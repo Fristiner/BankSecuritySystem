@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
+/**
+ * 账户相关接口，如查询余额、查询交易历史、修改密码。
+ */
 @RestController
 @RequiredArgsConstructor
 public class AccountController {
@@ -43,5 +47,16 @@ public class AccountController {
         return Results.success();
     }
 
+    //deposit 存款接口
 
+
+    // transfer 转账接口
+
+    // withdraw 取款接口
+
+    // balance 查询余额
+
+    // transactions 查询交易历史
+
+    //
 }

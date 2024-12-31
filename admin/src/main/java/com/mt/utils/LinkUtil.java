@@ -1,4 +1,3 @@
-
 package com.mt.utils;
 
 import cn.hutool.core.util.StrUtil;
@@ -6,24 +5,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.net.URI;
 
-
-/**
- * 短链接工具类
- * 公众号：马丁玩编程，回复：加群，添加马哥微信（备注：link）获取项目资料
- */
 public class LinkUtil {
 
-    /**
-     * 获取短链接缓存有效期时间
-     *
-     * @param validDate 有效期时间
-     * @return 有限期时间戳
-     */
-//    public static long getLinkCacheValidTime(Date validDate) {
-//        return Optional.ofNullable(validDate)
-//                .map(each -> DateUtil.between(new Date(), each, DateUnit.MS))
-//                .orElse(DEFAULT_CACHE_VALID_TIME);
-//    }
 
     /**
      * 获取用户真实IP
