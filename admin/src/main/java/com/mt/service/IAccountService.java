@@ -4,10 +4,13 @@ package com.mt.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mt.dao.entity.Account;
 import com.mt.dto.req.*;
+import com.mt.dto.resp.AccountBalanceRespDTO;
 import com.mt.dto.resp.AccountLoginRespDTO;
 import com.mt.dto.resp.AccountSuccessLoginRespDTO;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /*
  * {@code @author} ma
@@ -27,7 +30,19 @@ public interface IAccountService extends IService<Account> {
     AccountSuccessLoginRespDTO lastLogin(AccountLoginReqDTO accountLoginReqDTO, ServletRequest request, ServletResponse response);
 
 
-    void recharge(AccountRechargeReqDTO accountRechargeReqDTO);
+    void deposit(AccountDepositReqDTO accountDepositReqDTO, HttpServletRequest request, HttpServletResponse response);
+
+
+    void transfer(AccountTransferReqDTO accountTransferReqDTO, HttpServletRequest request, HttpServletResponse response);
+
+    void withdraw(AccountWithdrawReqDTO accountWithdrawReqDTO, HttpServletRequest request, HttpServletResponse response);
+
+
+    void changePassword(CardChangePasswordReqDTO cardChangePasswordReqDTO, HttpServletRequest request, HttpServletResponse response);
+
+
+    AccountBalanceRespDTO getBalance(AccountBalanceReqDTO accountBalanceReqDTO, HttpServletRequest request, HttpServletResponse response);
 }
+
 
 

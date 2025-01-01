@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6ecf5f1-8a01-4bbe-89ed-e8d718540c82" name="更改" comment="修改数据库配置信息">
+    <list default="true" id="f6ecf5f1-8a01-4bbe-89ed-e8d718540c82" name="更改" comment="优化controller结构">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/interceptor/LoginInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/interceptor/LoginInterceptor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/RegisterController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/ads.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/ads.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/utils/LinkUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/utils/LinkUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/ads.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/cardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/cardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/transactionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/transactionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/req/AccountRechargeReqDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/IAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/IAccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/impl/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/impl/AccountServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,39 +71,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.BankSecurityAdminApplication.executor": "Run",
-    "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.stylelint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.stylelint": "",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "rearrange.code.on.save": "true",
-    "settings.editor.selected.configurable": "fileTemplates",
-    "vue.rearranger.settings.migration": "true",
-    "应用程序.stest.executor": "Run"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.BankSecurityAdminApplication.executor&quot;: &quot;Run&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;,
+    &quot;应用程序.stest.executor&quot;: &quot;Run&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="BankSecurityAdminApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="BankSecurityAdmin" />
@@ -153,7 +157,8 @@
       <workItem from="1735537089789" duration="3141000" />
       <workItem from="1735609502443" duration="9009000" />
       <workItem from="1735624663678" duration="545000" />
-      <workItem from="1735651357235" duration="939000" />
+      <workItem from="1735651357235" duration="3159000" />
+      <workItem from="1735743371470" duration="809000" />
     </task>
     <task id="LOCAL-00001" summary="修改.gitignore">
       <option name="closed" value="true" />
@@ -195,11 +200,30 @@
       <option name="project" value="LOCAL" />
       <updated>1735624885895</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="优化controller结构">
+      <option name="closed" value="true" />
+      <created>1735652381788</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1735652381788</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="修改.gitignore" />
@@ -207,7 +231,8 @@
     <MESSAGE value="添加拦截器" />
     <MESSAGE value="登录接口" />
     <MESSAGE value="修改数据库配置信息" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改数据库配置信息" />
+    <MESSAGE value="优化controller结构" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化controller结构" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

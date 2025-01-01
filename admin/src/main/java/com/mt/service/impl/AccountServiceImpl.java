@@ -21,6 +21,7 @@ import com.mt.dao.entity.LoginLog;
 import com.mt.dao.mapper.AccountMapper;
 import com.mt.dao.mapper.LoginLogMapper;
 import com.mt.dto.req.*;
+import com.mt.dto.resp.AccountBalanceRespDTO;
 import com.mt.dto.resp.AccountLoginRespDTO;
 import com.mt.dto.resp.AccountSuccessLoginRespDTO;
 import com.mt.service.IAccountService;
@@ -30,6 +31,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -253,16 +255,31 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         // 4.返回登录成功的信息
     }
 
-    /**
-     * 充值功能
-     *
-     * @param accountRechargeReqDTO
-     */
     @Override
-    public void recharge(AccountRechargeReqDTO accountRechargeReqDTO) {
-        // TODO： 实现充值功能
+    public void deposit(AccountDepositReqDTO accountDepositReqDTO, HttpServletRequest request, HttpServletResponse response) {
 
     }
+
+    @Override
+    public void transfer(AccountTransferReqDTO accountTransferReqDTO, HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    @Override
+    public void withdraw(AccountWithdrawReqDTO accountWithdrawReqDTO, HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    @Override
+    public void changePassword(CardChangePasswordReqDTO cardChangePasswordReqDTO, HttpServletRequest request, HttpServletResponse response) {
+
+    }
+
+    @Override
+    public AccountBalanceRespDTO getBalance(AccountBalanceReqDTO accountBalanceReqDTO, HttpServletRequest request, HttpServletResponse response) {
+        return null;
+    }
+
 
     private void LoginNetWork(ServletRequest request, ServletResponse response) {
 

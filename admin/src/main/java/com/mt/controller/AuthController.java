@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  * {@code @className:}      AuthController
  * {@code @author:}         ma
  * {@code @date:}           2024/12/22 13:59
- * {@code @description:}
+ * {@code @description:}    登录和注册功能实现
  */
 @RestController
 @RequiredArgsConstructor
