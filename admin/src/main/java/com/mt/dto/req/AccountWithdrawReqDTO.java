@@ -2,6 +2,8 @@ package com.mt.dto.req;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * {@code @projectName:}    BankSecuritySystem
  * {@code @package:}        com.mt.dto.req
@@ -11,4 +13,6 @@ import lombok.Data;
  */
 @Data
 public class AccountWithdrawReqDTO {
+    private BigDecimal amount;
+    
 }

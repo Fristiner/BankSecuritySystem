@@ -2,6 +2,8 @@ package com.mt.dto.resp;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
  * {@code @projectName:}    BankSecuritySystem
  * {@code @package:}        com.mt.dto.resp
@@ -11,4 +13,5 @@ import lombok.Data;
  */
 @Data
 public class AccountBalanceRespDTO {
+    private BigDecimal balance;
 }

@@ -13,12 +13,15 @@ import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mt.common.biz.user.UserContext;
+import com.mt.common.constant.BalanceChangeType;
 import com.mt.common.constant.RedisConstant;
 import com.mt.common.convention.errorcode.BaseErrorCode;
 import com.mt.common.convention.exception.ClientException;
 import com.mt.dao.entity.Account;
+import com.mt.dao.entity.BalanceChangeHistory;
 import com.mt.dao.entity.LoginLog;
 import com.mt.dao.mapper.AccountMapper;
+import com.mt.dao.mapper.BalanceChangeHistoryMapper;
 import com.mt.dao.mapper.LoginLogMapper;
 import com.mt.dto.req.*;
 import com.mt.dto.resp.AccountBalanceRespDTO;
@@ -36,6 +39,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -60,6 +64,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     @Resource
     private LoginLogMapper loginLogMapper;
+
+    @Resource
+    private BalanceChangeHistoryMapper balanceChangeHistoryMapper;
 
     /**
      * 账号注册功能
@@ -255,8 +262,58 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         // 4.返回登录成功的信息
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deposit(AccountDepositReqDTO accountDepositReqDTO, HttpServletRequest request, HttpServletResponse response) {
+        String authorization = request.getHeader("Authorization");
+        String accountID = null;
+        // 使用redis查询是否过期
+        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(RedisConstant.AUTHORIZATION_PREFIX + authorization))) {
+            Long expire = stringRedisTemplate.getExpire(RedisConstant.AUTHORIZATION_PREFIX + authorization);
+            if (expire != null && expire > 0) {
+                // 键存在且未过期，获取数据
+                accountID = stringRedisTemplate.opsForValue().get(RedisConstant.AUTHORIZATION_PREFIX + authorization);
+                // 处理获取到的数据
+                // 刷新过期时间为30分钟
+                stringRedisTemplate.expire(RedisConstant.AUTHORIZATION_PREFIX + authorization, 30, TimeUnit.MINUTES);
+            } else {
+                // 键已过期
+                throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+            }
+        } else {
+            // 键不存在
+            throw new ClientException(BaseErrorCode.SAVE_OBJECT_ERROR);
+        }
+        // 获取到accountID
+        QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
+        if (accountID == null) {
+            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+        }
+        queryWrapper.eq("account_id", accountID);
+        Account account = accountMapper.selectOne(queryWrapper);
+        // 返回到查询的数据，然后进行处理
+        BigDecimal balance = account.getBalance();
+        BigDecimal newBalance = balance.add(accountDepositReqDTO.getAmount());
+
+        account.setBalance(newBalance);
+        int update = accountMapper.update(account, queryWrapper);
+        if (update != 1) {
+            throw new ClientException(BaseErrorCode.SAVE_OBJECT_ERROR);
+        }
+        // 插入一条余额变更日志信息
+        BalanceChangeHistory changeHistory = new BalanceChangeHistory();
+        changeHistory.setAccountId(accountID);
+        changeHistory.setChangeAmount(accountDepositReqDTO.getAmount());
+        changeHistory.setNewBalance(newBalance);
+        changeHistory.setReason("存款");
+        changeHistory.setType(BalanceChangeType.DEPOSIT);
+        String balance_change_ID = UUID.randomUUID().toString(true);
+        changeHistory.setBalanceChangeId(balance_change_ID);
+        int insert = balanceChangeHistoryMapper.insert(changeHistory);
+        if (insert != 1) {
+            throw new ClientException(BaseErrorCode.SAVE_OBJECT_ERROR);
+        }
+
 
     }
 
@@ -267,7 +324,61 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     @Override
     public void withdraw(AccountWithdrawReqDTO accountWithdrawReqDTO, HttpServletRequest request, HttpServletResponse response) {
+        String authorization = request.getHeader("Authorization");
+        String accountID = null;
+        // 使用redis查询是否过期
+        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(RedisConstant.AUTHORIZATION_PREFIX + authorization))) {
+            Long expire = stringRedisTemplate.getExpire(RedisConstant.AUTHORIZATION_PREFIX + authorization);
+            if (expire != null && expire > 0) {
+                // 键存在且未过期，获取数据
+                accountID = stringRedisTemplate.opsForValue().get(RedisConstant.AUTHORIZATION_PREFIX + authorization);
+                // 处理获取到的数据
+                // 刷新过期时间为30分钟
+                stringRedisTemplate.expire(RedisConstant.AUTHORIZATION_PREFIX + authorization, 30, TimeUnit.MINUTES);
+            } else {
+                // 键已过期
+                throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+            }
+        } else {
+            // 键不存在
+            throw new ClientException(BaseErrorCode.SAVE_OBJECT_ERROR);
+        }
+        // 获取到accountID
+        QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
+        if (accountID == null) {
+            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+        }
+        queryWrapper.eq("account_id", accountID);
+        Account account = accountMapper.selectOne(queryWrapper);
+        // 返回到查询的数据，然后进行处理
+        BigDecimal balance = account.getBalance();
+        BigDecimal amount = accountWithdrawReqDTO.getAmount();
+        // 检查余额是否足够
+        if (balance.compareTo(amount) < 0) {
+            // TODO：需要补充 余额不足
+            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+        }
+        BigDecimal newBalance = balance.subtract(amount);
 
+//        account.setBalance(newBalance);
+        int update = accountMapper.update(account, queryWrapper);
+        if (update != 1) {
+
+            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+        }
+        // 插入一条余额变更日志信息
+        BalanceChangeHistory changeHistory = new BalanceChangeHistory();
+        changeHistory.setAccountId(accountID);
+        changeHistory.setChangeAmount(accountWithdrawReqDTO.getAmount());
+        changeHistory.setNewBalance(newBalance);
+        changeHistory.setReason("取款");
+        changeHistory.setType(BalanceChangeType.WITHDRAW);
+        String balance_change_ID = UUID.randomUUID().toString(true);
+        changeHistory.setBalanceChangeId(balance_change_ID);
+        int insert = balanceChangeHistoryMapper.insert(changeHistory);
+        if (insert != 1) {
+            throw new ClientException(BaseErrorCode.SAVE_OBJECT_ERROR);
+        }
     }
 
     @Override
@@ -276,8 +387,38 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public AccountBalanceRespDTO getBalance(AccountBalanceReqDTO accountBalanceReqDTO, HttpServletRequest request, HttpServletResponse response) {
-        return null;
+    public AccountBalanceRespDTO getBalance(HttpServletRequest request, HttpServletResponse response) {
+        String authorization = request.getHeader("Authorization");
+        String accountID = null;
+        // 使用redis查询是否过期
+        if (Boolean.TRUE.equals(stringRedisTemplate.hasKey(RedisConstant.AUTHORIZATION_PREFIX + authorization))) {
+            Long expire = stringRedisTemplate.getExpire(RedisConstant.AUTHORIZATION_PREFIX + authorization);
+            if (expire != null && expire > 0) {
+                // 键存在且未过期，获取数据
+                accountID = stringRedisTemplate.opsForValue().get(RedisConstant.AUTHORIZATION_PREFIX + authorization);
+                // 处理获取到的数据
+                // 刷新过期时间为30分钟
+                stringRedisTemplate.expire(RedisConstant.AUTHORIZATION_PREFIX + authorization, 30, TimeUnit.MINUTES);
+            } else {
+                // 键已过期
+                throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+            }
+        } else {
+            // 键不存在
+            throw new ClientException(BaseErrorCode.SAVE_OBJECT_ERROR);
+        }
+        // 获取到accountID
+        QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
+        if (accountID == null) {
+            throw new ClientException(BaseErrorCode.SERVICE_ERROR);
+        }
+        queryWrapper.eq("account_id", accountID);
+        Account account = accountMapper.selectOne(queryWrapper);
+        // 返回到查询的数据，然后进行处理
+        BigDecimal balance = account.getBalance();
+        AccountBalanceRespDTO accountBalanceRespDTO = new AccountBalanceRespDTO();
+        accountBalanceRespDTO.setBalance(balance);
+        return accountBalanceRespDTO;
     }
 
 
@@ -307,7 +448,6 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         if (reqDTO == null) {
 //            return Results.failure(400, "数据无效或两次密码不同");、
             throw new ClientException(BaseErrorCode.USER_LOGIN_ERROR);
-//            System.out.println("asd");
         }
 
         // 2.两次密码相同

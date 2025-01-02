@@ -41,7 +41,7 @@ public interface IAccountService extends IService<Account> {
     void changePassword(CardChangePasswordReqDTO cardChangePasswordReqDTO, HttpServletRequest request, HttpServletResponse response);
 
 
-    AccountBalanceRespDTO getBalance(AccountBalanceReqDTO accountBalanceReqDTO, HttpServletRequest request, HttpServletResponse response);
+    AccountBalanceRespDTO getBalance(HttpServletRequest request, HttpServletResponse response);
 }
 
 

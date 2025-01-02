@@ -3,7 +3,6 @@ package com.mt.controller;
 
 import com.mt.common.convention.result.Result;
 import com.mt.common.convention.result.Results;
-import com.mt.dto.req.AccountBalanceReqDTO;
 import com.mt.dto.req.AccountDepositReqDTO;
 import com.mt.dto.req.AccountTransferReqDTO;
 import com.mt.dto.req.AccountWithdrawReqDTO;
@@ -29,7 +28,9 @@ public class AccountController {
     // 充值功能  deposit 存款接口
 
     @GetMapping("/api/account/deposit")
-    public Result<Void> deposit(@RequestBody AccountDepositReqDTO accountDepositReqDTO, HttpServletRequest request, HttpServletResponse response) {
+    public Result<Void> deposit(@RequestBody AccountDepositReqDTO accountDepositReqDTO,
+                                HttpServletRequest request,
+                                HttpServletResponse response) {
 
         System.out.println(request.getHeader("Authorization"));
 
@@ -44,8 +45,9 @@ public class AccountController {
 
     // transfer 转账接口
     @PostMapping("/api/account/transfer")
-    public Result<Void> transfer(@RequestBody AccountTransferReqDTO accountTransferReqDTO, HttpServletRequest request, HttpServletResponse response) {
-
+    public Result<Void> transfer(@RequestBody AccountTransferReqDTO accountTransferReqDTO,
+                                 HttpServletRequest request,
+                                 HttpServletResponse response) {
         accountService.transfer(accountTransferReqDTO, request, response);
         return Results.success();
     }
@@ -60,10 +62,10 @@ public class AccountController {
 
     //  balance 查询余额
     @GetMapping("/api/account/balance")
-    public Result<AccountBalanceRespDTO> getBalance(@RequestBody AccountBalanceReqDTO accountBalanceReqDTO, HttpServletRequest request, HttpServletResponse response) {
+    public Result<AccountBalanceRespDTO> getBalance(HttpServletRequest request, HttpServletResponse response) {
 
         // 模拟返回余额
-        return Results.success(accountService.getBalance(accountBalanceReqDTO, request, response));
+        return Results.success(accountService.getBalance(request, response));
     }
 
 //    // transactions 查询交易历史
