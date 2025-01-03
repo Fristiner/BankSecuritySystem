@@ -7,10 +7,8 @@ package com.mt.controller;
  */
 
 
-import com.mt.common.biz.user.UserContext;
 import com.mt.common.convention.result.Result;
 import com.mt.common.convention.result.Results;
-import com.mt.dao.entity.Account;
 import com.mt.dto.req.AccountLoginIDReqDTO;
 import com.mt.dto.req.AccountLoginReqDTO;
 import com.mt.dto.req.AccountRegisterReqDTO;
@@ -21,7 +19,6 @@ import com.mt.service.IAccountService;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -66,24 +63,6 @@ public class AuthController {
     public Result<AccountSuccessLoginRespDTO> lastLogin(@RequestBody AccountLoginReqDTO accountLoginReqDTO,
                                                         ServletRequest request, ServletResponse response) {
         return Results.success(accountService.lastLogin(accountLoginReqDTO, request, response));
-    }
-
-    @GetMapping("/api/auth/test")
-    public Result<Void> test(ServletRequest request, ServletResponse response) {
-
-        Account account = UserContext.getAccount();
-        if (account != null) {
-            System.out.println("account = " + account);
-        } else {
-            throw new RuntimeException("用户未登录");
-        }
-
-
-        Result<Void> result = new Result<>();
-        result.setCode("200");
-        result.setMessage("dasdasdas");
-
-        return result;
     }
 
     // 1.账号注册功能

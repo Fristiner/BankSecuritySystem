@@ -12,7 +12,6 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mt.common.biz.user.UserContext;
 import com.mt.common.constant.BalanceChangeType;
 import com.mt.common.constant.RedisConstant;
 import com.mt.common.convention.errorcode.BaseErrorCode;
@@ -156,13 +155,19 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         // 发送验证码到邮箱
         try {
             String randomNumbers = RandomUtil.randomNumbers(6);
-            Boolean result = stringRedisTemplate.opsForValue().setIfAbsent(
+//            Boolean result = stringRedisTemplate.opsForValue().setIfAbsent(
+//                    RedisConstant.SEND_CODE_PREFIX + email, randomNumbers, 3, TimeUnit.MINUTES
+//            );
+            stringRedisTemplate.opsForValue().set(
                     RedisConstant.SEND_CODE_PREFIX + email, randomNumbers, 3, TimeUnit.MINUTES
             );
-            if (result == null || !result) {
-                // TODO：抛出异常需要优化
-                throw new ClientException(BaseErrorCode.REDIS_GENERATE_ERROR);
-            }
+
+            // redis生成失败
+//            if (result == null || !result) {
+//                // TODO：抛出异常需要优化
+//                throw new ClientException(BaseErrorCode.REDIS_GENERATE_ERROR);
+//            }
+
 
             // 发送邮箱
             Boolean sendCodeEmailResult = emailUtil.sendCodeToEmail(email, randomNumbers);
@@ -194,6 +199,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         String redisKey = RedisConstant.SEND_CODE_PREFIX + email;
         String redisCode = stringRedisTemplate.opsForValue().get(redisKey);
         if (redisCode == null || !redisCode.equals(code)) {
+            // 验证码错误
             // 抛出异常，没有这个数据登录失败
             throw new ClientException(BaseErrorCode.TOKEN_ERROR);
         }
@@ -252,7 +258,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
                 , account.getAccountId(), 30, TimeUnit.MINUTES);
 
         // 将用户数据放到上下文当中 确保前面登录不会出现问题后，才可以放入到登录上下文当中去
-        UserContext.saveAccount(account);
+//        UserContext.saveAccount(account);
         // 5.返回登录成功的信息
         AccountSuccessLoginRespDTO respDTO = new AccountSuccessLoginRespDTO();
         respDTO.setAuthorization(authorization);

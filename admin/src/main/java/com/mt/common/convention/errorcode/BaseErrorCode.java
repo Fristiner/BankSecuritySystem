@@ -9,7 +9,7 @@ public enum BaseErrorCode implements IErrorCode {
     USER_NULL_ERROR("A0001001", "传入数据为空"),
     USER_ID_NUMBER_ERROR("A0001002", "身份证号码已被注册"),
     USER_EMAIL_EXIST_ERROR("A0001003", "该邮箱已经被注册"),
-    USER_LOGIN_ERROR("A0001004", "数据无效或两次密码不同"),
+    USER_LOGIN_ERROR("A0001004", "数据无效，无请求数据"),
     USER_NO_EXIST_ERROR("A0001005", "用户没有注册不存在"),
     USER_PASSWORD_ERROR("A0001006", "密码错误"),
     // ========== 一级宏观错误码 系统执行出错 ==========
@@ -25,7 +25,7 @@ public enum BaseErrorCode implements IErrorCode {
     NUMBER_SMALL_ERROR("403", "数字过小"),
     NUMBER_OVER_ERROR("401", "数字过大"),
     TOKEN_OVER_TIME_ERROR("C000003", "token已过期"),
-    TOKEN_ERROR("C000002", "传入token不匹配或没有传入token值");
+    TOKEN_ERROR("C000002", "传入验证码不匹配或没有传入验证码值");
 
     private final String code;
 
