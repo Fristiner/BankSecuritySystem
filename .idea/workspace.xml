@@ -4,24 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6ecf5f1-8a01-4bbe-89ed-e8d718540c82" name="更改" comment="change">
+    <list default="true" id="f6ecf5f1-8a01-4bbe-89ed-e8d718540c82" name="更改" comment="基本功能完成">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/convention/errorcode/BaseErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/convention/errorcode/BaseErrorCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/web/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/common/web/WebConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/transactionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/controller/transactionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/dao/entity/TransactionRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/dao/entity/TransactionRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/dao/mapper/AccountMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/dao/mapper/AccountMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/req/AccountRegisterReqDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/req/AccountRegisterReqDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/req/AccountTransferReqDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/req/AccountTransferReqDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/resp/AccountTransactionsRespDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/dto/resp/AccountTransactionsRespDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/IAccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/IAccountService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/impl/AccountServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/service/impl/AccountServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/java/com/mt/utils/EmailUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/java/com/mt/utils/EmailUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/resources/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/resources/data.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/resources/data2.sql" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/resources/data2.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/main/resources/后端接口.md" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/main/resources/后端接口.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/src/test/java/com/mt/test01.java" beforeDir="false" afterPath="$PROJECT_DIR$/admin/src/test/java/com/mt/test01.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,7 +218,7 @@
       <workItem from="1735901091251" duration="323000" />
       <workItem from="1735960811709" duration="5045000" />
       <workItem from="1735969061182" duration="893000" />
-      <workItem from="1735973779091" duration="11704000" />
+      <workItem from="1735973779091" duration="12457000" />
     </task>
     <task id="LOCAL-00001" summary="修改.gitignore">
       <option name="closed" value="true" />
@@ -307,7 +292,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735877807631</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="基本功能完成">
+      <option name="closed" value="true" />
+      <created>1736057894715</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1736057894716</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -334,7 +327,8 @@
     <MESSAGE value="增加部分接口" />
     <MESSAGE value="AccountController接口完成" />
     <MESSAGE value="change" />
-    <option name="LAST_COMMIT_MESSAGE" value="change" />
+    <MESSAGE value="基本功能完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="基本功能完成" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
