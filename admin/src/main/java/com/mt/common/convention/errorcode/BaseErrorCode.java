@@ -20,12 +20,15 @@ public enum BaseErrorCode implements IErrorCode {
     REGISTER_OTHER_ERROR("B0001002", "注册时出现其它错误，系统执行异常"),
     REDIS_GENERATE_ERROR("B0001003", "生成redis key时出现错误，系统执行异常"),
     EMAIL_SEND_ERROR("B0001004", "发送邮件时出现错误，系统执行异常"),
+    TRANSFER_ACCOUNT_NOT_EXIST_ERROR("B0001005", "交易目标账户不存在"),
     // ========== 一级宏观错误码 调用第三方服务出错 ==========
+    INSUFFICIENT_BALANCE_ERROR("C001001", "余额不足"),
     REMOTE_ERROR("C000001", "调用第三方服务出错"),
     NUMBER_SMALL_ERROR("403", "数字过小"),
     NUMBER_OVER_ERROR("401", "数字过大"),
     TOKEN_OVER_TIME_ERROR("C000003", "token已过期"),
-    TOKEN_ERROR("C000002", "传入验证码不匹配或没有传入验证码值");
+    TOKEN_ERROR("C000002", "传入验证码不匹配或没有传入验证码值"),
+    MISS_LOGIN_DATA("B0001005", "没有传入登录凭证数据");
 
     private final String code;
 

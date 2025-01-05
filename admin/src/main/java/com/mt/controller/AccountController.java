@@ -27,7 +27,7 @@ public class AccountController {
 
     // 充值功能  deposit 存款接口
 
-    @GetMapping("/api/account/deposit")
+    @PostMapping("/api/account/deposit")
     public Result<Void> deposit(@RequestBody AccountDepositReqDTO accountDepositReqDTO,
                                 HttpServletRequest request,
                                 HttpServletResponse response) {

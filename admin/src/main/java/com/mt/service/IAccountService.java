@@ -7,10 +7,13 @@ import com.mt.dto.req.*;
 import com.mt.dto.resp.AccountBalanceRespDTO;
 import com.mt.dto.resp.AccountLoginRespDTO;
 import com.mt.dto.resp.AccountSuccessLoginRespDTO;
+import com.mt.dto.resp.TransactionLogRespDTO;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.List;
 
 /*
  * {@code @author} ma
@@ -42,7 +45,10 @@ public interface IAccountService extends IService<Account> {
 
 
     AccountBalanceRespDTO getBalance(HttpServletRequest request, HttpServletResponse response);
+
+    List<TransactionLogRespDTO> transactionLog(TransactionLogReqDTO transactionLogReqDTO, HttpServletRequest request, HttpServletResponse response);
 }
+
 
 
 

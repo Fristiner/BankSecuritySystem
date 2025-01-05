@@ -1,12 +1,12 @@
 CREATE TABLE transaction (
     -- 交易唯一标识符，默认生成随机UUID并转换为二进制格式
-                             transaction_id BINARY(16) PRIMARY KEY ,
+                             transaction_id varchar(20) PRIMARY KEY ,
 
     -- 发起交易的账户ID
-                             from_account_id BINARY(16),
+                             from_account_id varchar(20),
 
     -- 接收交易的账户ID
-                             to_account_id BINARY(16),
+                             to_account_id varchar(20),
 
     -- 交易金额
                              amount DECIMAL(15, 2) NOT NULL,
@@ -31,10 +31,10 @@ CREATE TABLE transaction (
 
 CREATE TABLE balance_change_history (
     -- 变更记录唯一标识符，默认生成随机UUID并转换为二进制格式
-                                        balance_change_id BINARY(16) PRIMARY KEY ,
+                                        balance_change_id varchar(20) PRIMARY KEY ,
 
     -- 关联的账户ID
-                                        account_id BINARY(16) NOT NULL,
+                                        account_id varchar(20) NOT NULL,
 
     -- 变更金额
                                         change_amount DECIMAL(15, 2) NOT NULL,
@@ -54,10 +54,10 @@ CREATE TABLE balance_change_history (
 
 CREATE TABLE audit_log (
     -- 审计日志唯一标识符，默认生成随机UUID并转换为二进制格式
-                           audit_log_id BINARY(16) PRIMARY KEY,
+                           audit_log_id varchar(20) PRIMARY KEY,
 
     -- 操作者ID（可以是用户ID或系统进程）
-                           operator_id BINARY(16),
+                           operator_id varchar(20),
 
     -- 操作类型，例如：create, update, delete 等
                            operation_type VARCHAR(50) NOT NULL,
@@ -78,10 +78,10 @@ CREATE TABLE audit_log (
 -- 创建登录日志表，记录每次用户的登录信息
 CREATE TABLE login_log (
     -- 登录日志唯一标识符，默认生成随机UUID并转换为二进制格式
-                           login_id BINARY(16) PRIMARY KEY  COMMENT '登录日志唯一标识符，默认生成随机UUID并转换为二进制格式',
+                           login_id varchar(20) PRIMARY KEY  COMMENT '登录日志唯一标识符，默认生成随机UUID并转换为二进制格式',
 
     -- 关联的账户ID
-                           account_id BINARY(16) NOT NULL COMMENT '关联的账户ID',
+                           account_id varchar(20) NOT NULL COMMENT '关联的账户ID',
 
     -- 用户IP地址
                            ip_address VARCHAR(45) NOT NULL COMMENT '用户IP地址，支持IPv4和IPv6',

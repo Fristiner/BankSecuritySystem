@@ -12,11 +12,11 @@ import java.util.UUID;
 public class TransactionRecord {
 
     @TableId(type = IdType.ASSIGN_ID, value = "transaction_id") // 使用自定义的UUID作为主键
-    private byte[] transactionId;
+    private String transactionId;
 
-    private byte[] fromAccountId;
+    private String fromAccountId;
 
-    private byte[] toAccountId;
+    private String toAccountId;
 
     private BigDecimal amount;
 

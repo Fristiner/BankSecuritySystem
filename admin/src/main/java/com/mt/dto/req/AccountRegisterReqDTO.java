@@ -9,8 +9,6 @@ package com.mt.dto.req;
 
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 /**
  * {@code @projectName:}    BankSecuritySystem
  * {@code @package:}        com.mt.dto.req
@@ -31,9 +29,9 @@ public class AccountRegisterReqDTO {
 
     private String phoneNumber;
 
-    private String address;
+    //    private String address;
     // 初始账号余额
-    private BigDecimal balance;
+//    private BigDecimal balance;
     // 身份证号码
     private String idNumber;
 }
