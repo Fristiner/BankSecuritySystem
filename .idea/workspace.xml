@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f6ecf5f1-8a01-4bbe-89ed-e8d718540c82" name="更改" comment="基本功能完成">
+    <list default="true" id="f6ecf5f1-8a01-4bbe-89ed-e8d718540c82" name="更改" comment="feature:说明修改">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/admin/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +70,11 @@
     "JUnit.test01.test01.executor": "Run",
     "JUnit.test01.test02.executor": "Run",
     "JUnit.test01.test03.executor": "Run",
+    "Maven.BankSecurityAdmin [clean].executor": "Run",
+    "Maven.BankSecurityAdmin [compile].executor": "Run",
+    "Maven.BankSecurityAdmin [package].executor": "Run",
+    "Maven.BankSecuritySystem [clean].executor": "Run",
+    "Maven.BankSecuritySystem [package].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -218,7 +224,7 @@
       <workItem from="1735901091251" duration="323000" />
       <workItem from="1735960811709" duration="5045000" />
       <workItem from="1735969061182" duration="893000" />
-      <workItem from="1735973779091" duration="12457000" />
+      <workItem from="1735973779091" duration="14095000" />
     </task>
     <task id="LOCAL-00001" summary="修改.gitignore">
       <option name="closed" value="true" />
@@ -300,7 +306,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736057894716</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="feature:说明修改">
+      <option name="closed" value="true" />
+      <created>1736057978910</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1736057978910</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -328,7 +342,8 @@
     <MESSAGE value="AccountController接口完成" />
     <MESSAGE value="change" />
     <MESSAGE value="基本功能完成" />
-    <option name="LAST_COMMIT_MESSAGE" value="基本功能完成" />
+    <MESSAGE value="feature:说明修改" />
+    <option name="LAST_COMMIT_MESSAGE" value="feature:说明修改" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

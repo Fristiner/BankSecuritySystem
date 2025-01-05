@@ -8,6 +8,7 @@
         <artifactId>BankSecuritySystem</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <packaging>jar</packaging>
 
     <artifactId>BankSecurityAdmin</artifactId>
 
@@ -86,6 +87,27 @@
             <version>${easyexcel.version}</version>
         </dependency>
     </dependencies>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version> <!-- 使用您项目的Spring Boot版本 -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal> <!-- 确保创建可执行的JAR/WAR -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.mt.BankSecurityAdminApplication</mainClass> <!-- 指定主类 -->
+                    <layout>JAR</layout> <!-- 可选：指定布局为JAR或WAR -->
+                    <fork>true</fork> <!-- 可选：是否在独立的进程中运行 -->
+                    <addResources>true</addResources> <!-- 可选：将资源添加到classpath中 -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
